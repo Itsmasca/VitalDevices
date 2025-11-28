@@ -3,8 +3,7 @@
         "id": "vitalsync-flow-tab",
         "type": "tab",
         "label": "VitalSync IoT Simulator",
-        "disabled": false,
-        "info": "# VitalSync IoT Simulator - Full GraphQL Integration\n\n## Features:\n- JWT Authentication via GraphQL\n- Dynamic family member loading\n- Vitals via recordVital mutation\n- Active alerts display\n- Real-time WebSocket subscriptions\n\n## GraphQL Endpoints Used:\n- mutation login\n- query me, familyMembers, activeAlerts\n- mutation recordVital\n- subscription alertCreated, vitalUpdated"
+        "disabled": false
     },
     {
         "id": "dashboard-ui-tab",
@@ -18,7 +17,7 @@
     {
         "id": "auth-group",
         "type": "ui_group",
-        "name": "🔐 Authentication",
+        "name": "Authentication",
         "tab": "dashboard-ui-tab",
         "order": 0,
         "disp": true,
@@ -28,7 +27,7 @@
     {
         "id": "family-group",
         "type": "ui_group",
-        "name": "👨‍👩‍👧 Family Members",
+        "name": "Family Members",
         "tab": "dashboard-ui-tab",
         "order": 1,
         "disp": true,
@@ -38,7 +37,7 @@
     {
         "id": "config-group",
         "type": "ui_group",
-        "name": "⚙️ Simulation Control",
+        "name": "Simulation Control",
         "tab": "dashboard-ui-tab",
         "order": 2,
         "disp": true,
@@ -48,7 +47,7 @@
     {
         "id": "vitals-group",
         "type": "ui_group",
-        "name": "❤️ Vital Signs",
+        "name": "Vital Signs",
         "tab": "dashboard-ui-tab",
         "order": 3,
         "disp": true,
@@ -58,7 +57,7 @@
     {
         "id": "chart-group",
         "type": "ui_group",
-        "name": "📊 Charts",
+        "name": "Charts",
         "tab": "dashboard-ui-tab",
         "order": 4,
         "disp": true,
@@ -68,7 +67,7 @@
     {
         "id": "alerts-group",
         "type": "ui_group",
-        "name": "🚨 Active Alerts",
+        "name": "Active Alerts",
         "tab": "dashboard-ui-tab",
         "order": 5,
         "disp": true,
@@ -78,7 +77,7 @@
     {
         "id": "status-group",
         "type": "ui_group",
-        "name": "📡 System Status",
+        "name": "System Status",
         "tab": "dashboard-ui-tab",
         "order": 6,
         "disp": true,
@@ -86,50 +85,10 @@
         "collapse": false
     },
     {
-        "id": "comment-header",
-        "type": "comment",
-        "z": "vitalsync-flow-tab",
-        "name": "═══════════════════════════════════════════════════════════════════════════════",
-        "info": "",
-        "x": 400,
-        "y": 20,
-        "wires": []
-    },
-    {
-        "id": "comment-title",
-        "type": "comment",
-        "z": "vitalsync-flow-tab",
-        "name": "🏥 VitalSync IoT Simulator - Full GraphQL Dashboard (SIS4415 Project)",
-        "info": "Complete IoT simulator with:\n- GraphQL Authentication\n- Dynamic family member loading\n- Real-time vital signs\n- Active alerts monitoring\n- WebSocket subscriptions",
-        "x": 310,
-        "y": 60,
-        "wires": []
-    },
-    {
-        "id": "comment-footer",
-        "type": "comment",
-        "z": "vitalsync-flow-tab",
-        "name": "═══════════════════════════════════════════════════════════════════════════════",
-        "info": "",
-        "x": 400,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "comment-auth-section",
-        "type": "comment",
-        "z": "vitalsync-flow-tab",
-        "name": "══════════════════ AUTHENTICATION (GraphQL) ══════════════════",
-        "info": "",
-        "x": 300,
-        "y": 140,
-        "wires": []
-    },
-    {
         "id": "auth-api-url-input",
         "type": "ui_text_input",
         "z": "vitalsync-flow-tab",
-        "name": "🌐 API URL",
+        "name": "API URL",
         "label": "API URL:",
         "tooltip": "GraphQL endpoint (e.g., https://api.vitalsync.com/graphql)",
         "group": "auth-group",
@@ -145,14 +104,18 @@
         "topicType": "str",
         "x": 150,
         "y": 180,
-        "wires": [["save-auth-api-url"]]
+        "wires": [
+            [
+                "save-auth-api-url"
+            ]
+        ]
     },
     {
         "id": "save-auth-api-url",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "💾 Save API URL",
-        "func": "if (msg.payload && msg.payload.length > 0) {\n    let url = msg.payload.trim();\n    if (!url.startsWith('http://') && !url.startsWith('https://')) {\n        url = 'https://' + url;\n    }\n    url = url.replace(/\\/$/, '');\n    \n    // Store both base URL and GraphQL endpoint\n    global.set('apiBaseUrl', url);\n    global.set('graphqlUrl', url + '/graphql');\n    \n    node.status({fill: 'green', shape: 'dot', text: url});\n}\nreturn msg;",
+        "name": "Save API URL",
+        "func": "if (msg.payload && msg.payload.length > 0) {\n    let url = msg.payload.trim();\n    if (!url.startsWith('http://') && !url.startsWith('https://')) {\n        url = 'https://' + url;\n    }\n    url = url.replace(/\\/$/, '');\n\n    global.set('apiBaseUrl', url);\n    global.set('graphqlUrl', url + '/graphql');\n\n    node.status({fill: 'green', shape: 'dot', text: url});\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -160,13 +123,15 @@
         "libs": [],
         "x": 380,
         "y": 180,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "auth-email-input",
         "type": "ui_text_input",
         "z": "vitalsync-flow-tab",
-        "name": "📧 Email",
+        "name": "Email",
         "label": "Email:",
         "tooltip": "Your VitalSync account email",
         "group": "auth-group",
@@ -182,13 +147,17 @@
         "topicType": "str",
         "x": 140,
         "y": 230,
-        "wires": [["save-auth-email"]]
+        "wires": [
+            [
+                "save-auth-email"
+            ]
+        ]
     },
     {
         "id": "save-auth-email",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "💾 Save Email",
+        "name": "Save Email",
         "func": "if (msg.payload && msg.payload.length > 0) {\n    global.set('authEmail', msg.payload.trim());\n    node.status({fill: 'blue', shape: 'dot', text: msg.payload});\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -197,13 +166,15 @@
         "libs": [],
         "x": 370,
         "y": 230,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "auth-password-input",
         "type": "ui_text_input",
         "z": "vitalsync-flow-tab",
-        "name": "🔑 Password",
+        "name": "Password",
         "label": "Password:",
         "tooltip": "Your VitalSync account password",
         "group": "auth-group",
@@ -219,14 +190,18 @@
         "topicType": "str",
         "x": 150,
         "y": 280,
-        "wires": [["save-auth-password"]]
+        "wires": [
+            [
+                "save-auth-password"
+            ]
+        ]
     },
     {
         "id": "save-auth-password",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "💾 Save Password",
-        "func": "if (msg.payload && msg.payload.length > 0) {\n    global.set('authPassword', msg.payload);\n    node.status({fill: 'blue', shape: 'dot', text: '●●●●●●●●'});\n}\nreturn msg;",
+        "name": "Save Password",
+        "func": "if (msg.payload && msg.payload.length > 0) {\n    global.set('authPassword', msg.payload);\n    node.status({fill: 'blue', shape: 'dot', text: '********'});\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -234,13 +209,15 @@
         "libs": [],
         "x": 390,
         "y": 280,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "login-button",
         "type": "ui_button",
         "z": "vitalsync-flow-tab",
-        "name": "🔐 Login Button",
+        "name": "Login Button",
         "group": "auth-group",
         "order": 4,
         "width": "3",
@@ -258,13 +235,17 @@
         "topicType": "str",
         "x": 150,
         "y": 330,
-        "wires": [["prepare-graphql-login"]]
+        "wires": [
+            [
+                "prepare-graphql-login"
+            ]
+        ]
     },
     {
         "id": "logout-button",
         "type": "ui_button",
         "z": "vitalsync-flow-tab",
-        "name": "🚪 Logout",
+        "name": "Logout",
         "group": "auth-group",
         "order": 5,
         "width": "3",
@@ -282,14 +263,18 @@
         "topicType": "str",
         "x": 140,
         "y": 380,
-        "wires": [["do-logout"]]
+        "wires": [
+            [
+                "do-logout"
+            ]
+        ]
     },
     {
         "id": "prepare-graphql-login",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Prepare GraphQL Login",
-        "func": "const graphqlUrl = global.get('graphqlUrl');\nconst email = global.get('authEmail');\nconst password = global.get('authPassword');\n\nif (!graphqlUrl) {\n    node.status({fill: 'red', shape: 'dot', text: 'No API URL'});\n    return null;\n}\n\nif (!email || !password) {\n    node.status({fill: 'red', shape: 'dot', text: 'Missing credentials'});\n    return null;\n}\n\n// GraphQL login mutation\nconst query = `\nmutation Login($email: String!, $password: String!) {\n    login(input: { email: $email, password: $password }) {\n        accessToken\n        refreshToken\n        expiresIn\n        user {\n            id\n            email\n            name\n            role\n        }\n    }\n}\n`;\n\nmsg.url = graphqlUrl;\nmsg.method = 'POST';\nmsg.headers = { 'Content-Type': 'application/json' };\nmsg.payload = {\n    query: query,\n    variables: {\n        email: email,\n        password: password\n    }\n};\n\nnode.status({fill: 'yellow', shape: 'ring', text: 'Logging in...'});\nreturn msg;",
+        "name": "Prepare GraphQL Login",
+        "func": "const graphqlUrl = global.get('graphqlUrl');\nconst email = global.get('authEmail');\nconst password = global.get('authPassword');\n\nif (!graphqlUrl) {\n    node.status({fill: 'red', shape: 'dot', text: 'No API URL'});\n    return null;\n}\n\nif (!email || !password) {\n    node.status({fill: 'red', shape: 'dot', text: 'Missing credentials'});\n    return null;\n}\n\nconst query = `\nmutation Login($email: String!, $password: String!) {\n    login(input: { email: $email, password: $password }) {\n        accessToken\n        refreshToken\n        expiresIn\n        user {\n            id\n            email\n            name\n            role\n        }\n    }\n}\n`;\n\nmsg.url = graphqlUrl;\nmsg.method = 'POST';\nmsg.headers = { 'Content-Type': 'application/json' };\nmsg.payload = {\n    query: query,\n    variables: {\n        email: email,\n        password: password\n    }\n};\n\nnode.status({fill: 'yellow', shape: 'ring', text: 'Logging in...'});\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -297,13 +282,17 @@
         "libs": [],
         "x": 410,
         "y": 330,
-        "wires": [["http-graphql-request"]]
+        "wires": [
+            [
+                "http-graphql-request"
+            ]
+        ]
     },
     {
         "id": "http-graphql-request",
         "type": "http request",
         "z": "vitalsync-flow-tab",
-        "name": "📡 GraphQL Request",
+        "name": "GraphQL Request",
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
@@ -317,14 +306,18 @@
         "headers": [],
         "x": 670,
         "y": 330,
-        "wires": [["handle-login-response"]]
+        "wires": [
+            [
+                "handle-login-response"
+            ]
+        ]
     },
     {
         "id": "handle-login-response",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Handle Login Response",
-        "func": "const statusCode = msg.statusCode || 0;\nconst now = new Date();\n\nif (statusCode === 200 && msg.payload.data && msg.payload.data.login) {\n    const login = msg.payload.data.login;\n    const accessToken = login.accessToken;\n    const refreshToken = login.refreshToken;\n    const expiresIn = login.expiresIn || 1800;\n    const user = login.user;\n    \n    // Store auth data\n    global.set('jwtAccessToken', accessToken);\n    global.set('jwtRefreshToken', refreshToken);\n    global.set('jwtExpiresAt', now.getTime() + (expiresIn * 1000));\n    global.set('isAuthenticated', true);\n    global.set('currentUser', user);\n    \n    node.status({fill: 'green', shape: 'dot', text: 'Logged in: ' + user.name});\n    \n    return [\n        { payload: '✅ Welcome, ' + user.name + '!', topic: 'auth/success' },\n        { payload: 'fetchFamily', topic: 'trigger' }\n    ];\n} else if (msg.payload.errors) {\n    const errorMsg = msg.payload.errors[0]?.message || 'Login failed';\n    node.status({fill: 'red', shape: 'dot', text: errorMsg});\n    global.set('isAuthenticated', false);\n    return [{ payload: '❌ ' + errorMsg, topic: 'auth/error' }, null];\n} else {\n    node.status({fill: 'red', shape: 'dot', text: 'Error ' + statusCode});\n    global.set('isAuthenticated', false);\n    return [{ payload: '❌ Connection failed', topic: 'auth/error' }, null];\n}",
+        "name": "Handle Login Response",
+        "func": "const statusCode = msg.statusCode || 0;\nconst now = new Date();\n\nif (statusCode === 200 && msg.payload.data && msg.payload.data.login) {\n    const login = msg.payload.data.login;\n    const accessToken = login.accessToken;\n    const refreshToken = login.refreshToken;\n    const expiresIn = login.expiresIn || 1800;\n    const user = login.user;\n\n    global.set('jwtAccessToken', accessToken);\n    global.set('jwtRefreshToken', refreshToken);\n    global.set('jwtExpiresAt', now.getTime() + (expiresIn * 1000));\n    global.set('isAuthenticated', true);\n    global.set('currentUser', user);\n\n    node.status({fill: 'green', shape: 'dot', text: 'Logged in: ' + user.name});\n\n    return [\n        { payload: 'Welcome, ' + user.name + '!', topic: 'auth/success' },\n        { payload: 'fetchFamily', topic: 'trigger' }\n    ];\n} else if (msg.payload.errors) {\n    const errorMsg = msg.payload.errors[0]?.message || 'Login failed';\n    node.status({fill: 'red', shape: 'dot', text: errorMsg});\n    global.set('isAuthenticated', false);\n    return [{ payload: 'Error: ' + errorMsg, topic: 'auth/error' }, null];\n} else {\n    node.status({fill: 'red', shape: 'dot', text: 'Error ' + statusCode});\n    global.set('isAuthenticated', false);\n    return [{ payload: 'Connection failed (status ' + statusCode + ')', topic: 'auth/error' }, null];\n}",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -332,14 +325,22 @@
         "libs": [],
         "x": 910,
         "y": 330,
-        "wires": [["auth-toast", "update-auth-status"], ["fetch-family-members"]]
+        "wires": [
+            [
+                "auth-toast",
+                "update-auth-status"
+            ],
+            [
+                "fetch-family-members"
+            ]
+        ]
     },
     {
         "id": "do-logout",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "🚪 Clear Auth",
-        "func": "global.set('jwtAccessToken', null);\nglobal.set('jwtRefreshToken', null);\nglobal.set('jwtExpiresAt', null);\nglobal.set('isAuthenticated', false);\nglobal.set('currentUser', null);\nglobal.set('familyMembers', []);\nglobal.set('selectedMemberId', null);\n\nnode.status({fill: 'grey', shape: 'dot', text: 'Logged out'});\n\nreturn { payload: '🚪 Logged out', topic: 'auth/logout' };",
+        "name": "Clear Auth",
+        "func": "global.set('jwtAccessToken', null);\nglobal.set('jwtRefreshToken', null);\nglobal.set('jwtExpiresAt', null);\nglobal.set('isAuthenticated', false);\nglobal.set('currentUser', null);\nglobal.set('familyMembers', []);\nglobal.set('selectedMemberId', null);\n\nnode.status({fill: 'grey', shape: 'dot', text: 'Logged out'});\n\nreturn { payload: 'Logged out', topic: 'auth/logout' };",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -347,7 +348,13 @@
         "libs": [],
         "x": 370,
         "y": 380,
-        "wires": [["auth-toast", "update-auth-status", "clear-family-dropdown"]]
+        "wires": [
+            [
+                "auth-toast",
+                "update-auth-status",
+                "clear-family-dropdown"
+            ]
+        ]
     },
     {
         "id": "auth-toast",
@@ -372,8 +379,8 @@
         "id": "update-auth-status",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📊 Update Auth Status",
-        "func": "const isAuth = global.get('isAuthenticated') || false;\nconst user = global.get('currentUser');\nconst expiresAt = global.get('jwtExpiresAt');\n\nlet statusText = '';\nif (isAuth && user) {\n    const now = Date.now();\n    const remaining = Math.round((expiresAt - now) / 60000);\n    statusText = '🔓 ' + user.name + ' (' + remaining + ' min)';\n} else {\n    statusText = '🔒 Not authenticated';\n}\n\nmsg.payload = statusText;\nreturn msg;",
+        "name": "Update Auth Status",
+        "func": "const isAuth = global.get('isAuthenticated') || false;\nconst user = global.get('currentUser');\nconst expiresAt = global.get('jwtExpiresAt');\n\nlet statusText = '';\nif (isAuth && user) {\n    const now = Date.now();\n    const remaining = Math.max(0, Math.round((expiresAt - now) / 60000));\n    statusText = 'Authenticated: ' + user.name + ' (' + remaining + ' min)';\n} else {\n    statusText = 'Not authenticated';\n}\n\nmsg.payload = statusText;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -381,13 +388,17 @@
         "libs": [],
         "x": 1160,
         "y": 380,
-        "wires": [["auth-status-display"]]
+        "wires": [
+            [
+                "auth-status-display"
+            ]
+        ]
     },
     {
         "id": "auth-status-display",
         "type": "ui_text",
         "z": "vitalsync-flow-tab",
-        "name": "🔐 Auth Status",
+        "name": "Auth Status",
         "group": "auth-group",
         "order": 6,
         "width": "6",
@@ -401,21 +412,11 @@
         "wires": []
     },
     {
-        "id": "comment-family-section",
-        "type": "comment",
-        "z": "vitalsync-flow-tab",
-        "name": "══════════════════ FAMILY MEMBERS (GraphQL Query) ══════════════════",
-        "info": "",
-        "x": 330,
-        "y": 430,
-        "wires": []
-    },
-    {
         "id": "fetch-family-members",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Fetch Family Members",
-        "func": "const graphqlUrl = global.get('graphqlUrl');\nconst token = global.get('jwtAccessToken');\n\nif (!graphqlUrl || !token) {\n    node.status({fill: 'red', shape: 'dot', text: 'Not authenticated'});\n    return null;\n}\n\n// Query to get user's family groups and members\nconst query = `\nquery GetMyFamilyData {\n    myFamilyGroups {\n        id\n        name\n        members {\n            id\n            name\n            relationship\n            deviceId\n            deviceType\n            alertsEnabled\n            status\n        }\n    }\n}\n`;\n\nmsg.url = graphqlUrl;\nmsg.method = 'POST';\nmsg.headers = {\n    'Content-Type': 'application/json',\n    'Authorization': 'Bearer ' + token\n};\nmsg.payload = { query: query };\n\nnode.status({fill: 'yellow', shape: 'ring', text: 'Fetching...'});\nreturn msg;",
+        "name": "Fetch Family Members",
+        "func": "const graphqlUrl = global.get('graphqlUrl');\nconst token = global.get('jwtAccessToken');\n\nif (!graphqlUrl || !token) {\n    node.status({fill: 'red', shape: 'dot', text: 'Not authenticated'});\n    return null;\n}\n\nconst query = `\nquery GetMyFamilyData {\n    myFamilyGroups {\n        id\n        name\n        members {\n            id\n            name\n            relationship\n            deviceId\n            deviceType\n            alertsEnabled\n            status\n        }\n    }\n}\n`;\n\nmsg.url = graphqlUrl;\nmsg.method = 'POST';\nmsg.headers = {\n    'Content-Type': 'application/json',\n    'Authorization': 'Bearer ' + token\n};\nmsg.payload = { query: query };\n\nnode.status({fill: 'yellow', shape: 'ring', text: 'Fetching...'});\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -423,13 +424,17 @@
         "libs": [],
         "x": 190,
         "y": 480,
-        "wires": [["http-family-request"]]
+        "wires": [
+            [
+                "http-family-request"
+            ]
+        ]
     },
     {
         "id": "refresh-family-btn",
         "type": "ui_button",
         "z": "vitalsync-flow-tab",
-        "name": "🔄 Refresh Family",
+        "name": "Refresh Family",
         "group": "family-group",
         "order": 1,
         "width": "3",
@@ -447,13 +452,17 @@
         "topicType": "str",
         "x": 160,
         "y": 530,
-        "wires": [["fetch-family-members"]]
+        "wires": [
+            [
+                "fetch-family-members"
+            ]
+        ]
     },
     {
         "id": "http-family-request",
         "type": "http request",
         "z": "vitalsync-flow-tab",
-        "name": "📡 GraphQL Request",
+        "name": "GraphQL Request",
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
@@ -467,14 +476,18 @@
         "headers": [],
         "x": 450,
         "y": 480,
-        "wires": [["handle-family-response"]]
+        "wires": [
+            [
+                "handle-family-response"
+            ]
+        ]
     },
     {
         "id": "handle-family-response",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Handle Family Response",
-        "func": "if (msg.statusCode === 200 && msg.payload.data) {\n    const groups = msg.payload.data.myFamilyGroups || [];\n    \n    // Flatten all members from all groups\n    let allMembers = [];\n    for (const group of groups) {\n        if (group.members) {\n            for (const member of group.members) {\n                allMembers.push({\n                    ...member,\n                    groupId: group.id,\n                    groupName: group.name\n                });\n            }\n        }\n    }\n    \n    // Store members\n    global.set('familyMembers', allMembers);\n    global.set('familyGroups', groups);\n    \n    // Build dropdown options\n    const options = allMembers.map(m => ({\n        label: m.name + ' (' + m.relationship + ')',\n        value: m.id\n    }));\n    \n    node.status({fill: 'green', shape: 'dot', text: allMembers.length + ' members'});\n    \n    // Output 1: Toast message\n    // Output 2: Dropdown options\n    return [\n        { payload: '👨‍👩‍👧 Loaded ' + allMembers.length + ' family members' },\n        { payload: options, topic: 'family/options' }\n    ];\n} else {\n    const errorMsg = msg.payload.errors?.[0]?.message || 'Failed to load';\n    node.status({fill: 'red', shape: 'dot', text: errorMsg});\n    return [{ payload: '❌ ' + errorMsg }, null];\n}",
+        "name": "Handle Family Response",
+        "func": "if (msg.statusCode === 200 && msg.payload.data) {\n    const groups = msg.payload.data.myFamilyGroups || [];\n\n    let allMembers = [];\n    for (const group of groups) {\n        if (group.members) {\n            for (const member of group.members) {\n                allMembers.push({\n                    ...member,\n                    groupId: group.id,\n                    groupName: group.name\n                });\n            }\n        }\n    }\n\n    global.set('familyMembers', allMembers);\n    global.set('familyGroups', groups);\n\n    const options = allMembers.map(m => ({\n        label: m.name + ' (' + m.relationship + ')',\n        value: m.id\n    }));\n\n    node.status({fill: 'green', shape: 'dot', text: allMembers.length + ' members'});\n\n    return [\n        { payload: 'Loaded ' + allMembers.length + ' family members' },\n        { payload: options, topic: 'family/options' }\n    ];\n} else {\n    const errorMsg = msg.payload.errors?.[0]?.message || 'Failed to load';\n    node.status({fill: 'red', shape: 'dot', text: errorMsg});\n    return [{ payload: 'Error: ' + errorMsg }, null];\n}",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -482,7 +495,14 @@
         "libs": [],
         "x": 710,
         "y": 480,
-        "wires": [["family-toast"], ["update-family-dropdown"]]
+        "wires": [
+            [
+                "family-toast"
+            ],
+            [
+                "update-family-dropdown"
+            ]
+        ]
     },
     {
         "id": "family-toast",
@@ -507,8 +527,8 @@
         "id": "update-family-dropdown",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📝 Format Dropdown",
-        "func": "// Format for ui_dropdown\nconst options = msg.payload || [];\n\n// Add \"All Members\" option\nconst formatted = [\n    { value: 'ALL', label: '📊 All Members' },\n    ...options.map(o => ({ value: o.value, label: '👤 ' + o.label }))\n];\n\nmsg.options = formatted;\nmsg.payload = 'ALL'; // Default selection\nreturn msg;",
+        "name": "Format Dropdown",
+        "func": "const options = msg.payload || [];\n\nconst formatted = [\n    { value: 'ALL', label: 'All Members' },\n    ...options.map(o => ({ value: o.value, label: o.label }))\n];\n\nmsg.options = formatted;\nmsg.payload = 'ALL';\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -516,14 +536,18 @@
         "libs": [],
         "x": 970,
         "y": 530,
-        "wires": [["family-member-dropdown"]]
+        "wires": [
+            [
+                "family-member-dropdown"
+            ]
+        ]
     },
     {
         "id": "clear-family-dropdown",
         "type": "function",
         "z": "vitalsync-flow-tab",
         "name": "Clear Dropdown",
-        "func": "msg.options = [{ value: 'ALL', label: '📊 All Members' }];\nmsg.payload = 'ALL';\nreturn msg;",
+        "func": "msg.options = [{ value: 'ALL', label: 'All Members' }];\nmsg.payload = 'ALL';\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -531,13 +555,17 @@
         "libs": [],
         "x": 600,
         "y": 380,
-        "wires": [["family-member-dropdown"]]
+        "wires": [
+            [
+                "family-member-dropdown"
+            ]
+        ]
     },
     {
         "id": "family-member-dropdown",
         "type": "ui_dropdown",
         "z": "vitalsync-flow-tab",
-        "name": "👤 Family Member Selector",
+        "name": "Family Member Selector",
         "label": "Monitor:",
         "tooltip": "Select family member to monitor",
         "group": "family-group",
@@ -547,20 +575,28 @@
         "passthru": true,
         "multiple": false,
         "options": [
-            {"label": "📊 All Members", "value": "ALL", "type": "str"}
+            {
+                "label": "All Members",
+                "value": "ALL",
+                "type": "str"
+            }
         ],
         "payload": "",
         "topic": "family/selected",
         "topicType": "str",
         "x": 1210,
         "y": 530,
-        "wires": [["save-selected-member"]]
+        "wires": [
+            [
+                "save-selected-member"
+            ]
+        ]
     },
     {
         "id": "save-selected-member",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "💾 Save Selection",
+        "name": "Save Selection",
         "func": "global.set('selectedMemberId', msg.payload);\n\nconst members = global.get('familyMembers') || [];\nconst selected = members.find(m => m.id === msg.payload);\n\nif (selected) {\n    global.set('selectedMember', selected);\n    node.status({fill: 'blue', shape: 'dot', text: selected.name});\n} else {\n    global.set('selectedMember', null);\n    node.status({fill: 'blue', shape: 'dot', text: 'All Members'});\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -569,18 +605,20 @@
         "libs": [],
         "x": 1430,
         "y": 530,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "member-info-display",
         "type": "ui_template",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Member Info",
+        "name": "Member Info",
         "group": "family-group",
         "order": 3,
         "width": "6",
         "height": "2",
-        "format": "<div style=\"font-size: 12px; padding: 5px;\">\n    <div ng-if=\"msg.member\">\n        <strong>{{msg.member.name}}</strong><br>\n        📱 Device: {{msg.member.deviceType}}<br>\n        🔗 ID: {{msg.member.deviceId}}<br>\n        Status: <span style=\"color: {{msg.member.status === 'normal' ? 'green' : 'orange'}}\">{{msg.member.status}}</span>\n    </div>\n    <div ng-if=\"!msg.member\" style=\"color: #888;\">\n        Select a family member to view details\n    </div>\n</div>",
+        "format": "<div style=\"font-size: 12px; padding: 5px;\">\n    <div ng-if=\"msg.member\">\n        <strong>{{msg.member.name}}</strong><br>\n        Device: {{msg.member.deviceType}}<br>\n        ID: {{msg.member.deviceId}}<br>\n        Status: <span style=\"color: {{msg.member.status === 'normal' ? 'green' : 'orange'}}\">{{msg.member.status}}</span>\n    </div>\n    <div ng-if=\"!msg.member\" style=\"color: #888;\">\n        Select a family member to view details\n    </div>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -588,23 +626,15 @@
         "className": "",
         "x": 1200,
         "y": 580,
-        "wires": [[]]
-    },
-    {
-        "id": "comment-control-section",
-        "type": "comment",
-        "z": "vitalsync-flow-tab",
-        "name": "══════════════════ SIMULATION CONTROL ══════════════════",
-        "info": "",
-        "x": 290,
-        "y": 630,
-        "wires": []
+        "wires": [
+            []
+        ]
     },
     {
         "id": "start-stop-switch",
         "type": "ui_switch",
         "z": "vitalsync-flow-tab",
-        "name": "▶️ Start/Stop",
+        "name": "Start/Stop",
         "label": "Data Emission",
         "tooltip": "Start or stop sending simulated vitals",
         "group": "config-group",
@@ -627,13 +657,18 @@
         "animate": true,
         "x": 150,
         "y": 680,
-        "wires": [["set-emission-state", "status-emission"]]
+        "wires": [
+            [
+                "set-emission-state",
+                "status-emission"
+            ]
+        ]
     },
     {
         "id": "set-emission-state",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "💾 Set State",
+        "name": "Set State",
         "func": "const isAuth = global.get('isAuthenticated') || false;\n\nif (msg.payload && !isAuth) {\n    node.warn('Please login first!');\n    node.status({fill: 'red', shape: 'dot', text: 'Login required'});\n} else {\n    global.set('emissionEnabled', msg.payload);\n    node.status({fill: msg.payload ? 'green' : 'red', shape: 'dot', text: msg.payload ? 'ON' : 'OFF'});\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -642,14 +677,16 @@
         "libs": [],
         "x": 370,
         "y": 680,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "status-emission",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📝 Format",
-        "func": "msg.payload = msg.payload ? '▶️ Emitting...' : '⏹️ Stopped';\nreturn msg;",
+        "name": "Format",
+        "func": "msg.payload = msg.payload ? 'Emitting...' : 'Stopped';\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -657,13 +694,17 @@
         "libs": [],
         "x": 360,
         "y": 720,
-        "wires": [["emission-status-text"]]
+        "wires": [
+            [
+                "emission-status-text"
+            ]
+        ]
     },
     {
         "id": "frequency-slider",
         "type": "ui_slider",
         "z": "vitalsync-flow-tab",
-        "name": "⏱️ Frequency",
+        "name": "Frequency",
         "label": "Interval (ms)",
         "tooltip": "500ms to 3000ms",
         "group": "config-group",
@@ -679,13 +720,17 @@
         "step": 100,
         "x": 150,
         "y": 770,
-        "wires": [["update-interval"]]
+        "wires": [
+            [
+                "update-interval"
+            ]
+        ]
     },
     {
         "id": "update-interval",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "💾 Save",
+        "name": "Save",
         "func": "global.set('emissionInterval', msg.payload);\nnode.status({fill:'blue', shape:'dot', text: msg.payload + 'ms'});\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -694,13 +739,15 @@
         "libs": [],
         "x": 350,
         "y": 770,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "anomaly-toggle",
         "type": "ui_switch",
         "z": "vitalsync-flow-tab",
-        "name": "⚠️ Anomalies",
+        "name": "Anomalies",
         "label": "Inject Anomalies",
         "tooltip": "30% chance of abnormal values",
         "group": "config-group",
@@ -723,13 +770,17 @@
         "animate": true,
         "x": 150,
         "y": 820,
-        "wires": [["set-anomaly-mode"]]
+        "wires": [
+            [
+                "set-anomaly-mode"
+            ]
+        ]
     },
     {
         "id": "set-anomaly-mode",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "💾 Save",
+        "name": "Save",
         "func": "global.set('anomalyMode', msg.payload);\nnode.status({fill: msg.payload ? 'yellow' : 'grey', shape: 'dot', text: msg.payload ? 'ON' : 'OFF'});\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -738,24 +789,20 @@
         "libs": [],
         "x": 350,
         "y": 820,
-        "wires": [[]]
-    },
-    {
-        "id": "comment-vitals-section",
-        "type": "comment",
-        "z": "vitalsync-flow-tab",
-        "name": "══════════════════ VITALS GENERATION & GraphQL Mutation ══════════════════",
-        "info": "",
-        "x": 340,
-        "y": 870,
-        "wires": []
+        "wires": [
+            []
+        ]
     },
     {
         "id": "interval-trigger",
         "type": "inject",
         "z": "vitalsync-flow-tab",
-        "name": "⏰ 1s Trigger",
-        "props": [{"p": "payload"}],
+        "name": "1s Trigger",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
         "repeat": "1",
         "crontab": "",
         "once": true,
@@ -765,29 +812,37 @@
         "payloadType": "str",
         "x": 150,
         "y": 920,
-        "wires": [["emission-gate"]]
+        "wires": [
+            [
+                "emission-gate"
+            ]
+        ]
     },
     {
         "id": "emission-gate",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "🚦 Gate",
+        "name": "Gate",
         "func": "const enabled = global.get('emissionEnabled') || false;\nconst isAuth = global.get('isAuthenticated') || false;\n\nif (enabled && isAuth) {\n    return msg;\n}\nreturn null;",
         "outputs": 1,
         "noerr": 0,
-        "initialize": "// Initialize\nglobal.set('emissionEnabled', false);\nglobal.set('anomalyMode', false);\nglobal.set('emissionInterval', 1000);\nglobal.set('isAuthenticated', false);\nglobal.set('familyMembers', []);",
+        "initialize": "global.set('emissionEnabled', false);\nglobal.set('anomalyMode', false);\nglobal.set('emissionInterval', 1000);\nglobal.set('isAuthenticated', false);\nglobal.set('familyMembers', []);",
         "finalize": "",
         "libs": [],
         "x": 330,
         "y": 920,
-        "wires": [["generate-vitals"]]
+        "wires": [
+            [
+                "generate-vitals"
+            ]
+        ]
     },
     {
         "id": "generate-vitals",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "🧬 Generate Vitals",
-        "func": "// Get family members from API or use defaults\nconst familyMembers = global.get('familyMembers') || [];\nconst anomalyMode = global.get('anomalyMode') || false;\nconst selectedId = global.get('selectedMemberId');\n\n// Default simulation profiles if no API data\nconst DEFAULT_PROFILES = {\n    'default-1': {\n        name: 'Test Member 1',\n        heartRate: { min: 60, max: 100, baseline: 75 },\n        oxygenLevel: { min: 94, max: 99, baseline: 97 },\n        bodyTemperature: { min: 36.0, max: 37.5, baseline: 36.6 }\n    }\n};\n\nfunction gaussianRandom(mean, stdDev) {\n    let u = 0, v = 0;\n    while (u === 0) u = Math.random();\n    while (v === 0) v = Math.random();\n    return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v) * stdDev + mean;\n}\n\nfunction randomInt(min, max) {\n    return Math.floor(Math.random() * (max - min + 1)) + min;\n}\n\n// Generate vitals for each member\nconst messages = [];\nconst membersToProcess = familyMembers.length > 0 ? familyMembers : \n    [{ id: 'default-1', name: 'Test Member', deviceId: 'SIM-001', relationship: 'test' }];\n\nfor (const member of membersToProcess) {\n    // Skip if specific member selected and this isn't it\n    if (selectedId && selectedId !== 'ALL' && member.id !== selectedId) {\n        continue;\n    }\n    \n    const profile = DEFAULT_PROFILES['default-1']; // Use default profile\n    const now = new Date();\n    \n    let heartRate = gaussianRandom(profile.heartRate.baseline, 5);\n    let oxygenLevel = gaussianRandom(profile.oxygenLevel.baseline, 1);\n    let bodyTemperature = gaussianRandom(profile.bodyTemperature.baseline, 0.2);\n    let bloodPressureSystolic = gaussianRandom(120, 10);\n    let bloodPressureDiastolic = gaussianRandom(80, 5);\n    \n    // Inject anomaly (30% chance)\n    if (anomalyMode && Math.random() < 0.30) {\n        const types = ['hr_high', 'hr_low', 'spo2_low', 'temp_high'];\n        switch (types[randomInt(0, types.length - 1)]) {\n            case 'hr_high': heartRate = randomInt(125, 150); break;\n            case 'hr_low': heartRate = randomInt(40, 50); break;\n            case 'spo2_low': oxygenLevel = randomInt(85, 90); break;\n            case 'temp_high': bodyTemperature = 38.5 + Math.random(); break;\n        }\n    }\n    \n    // Get steps\n    const stepsKey = 'steps_' + member.id;\n    let steps = global.get(stepsKey) || randomInt(0, 2000);\n    steps += randomInt(5, 30);\n    global.set(stepsKey, steps);\n    \n    const payload = {\n        memberId: member.id,\n        deviceId: member.deviceId || 'SIM-' + member.id.substring(0, 8),\n        heartRate: Math.round(Math.max(30, Math.min(200, heartRate))),\n        oxygenLevel: parseFloat(Math.max(50, Math.min(100, oxygenLevel)).toFixed(1)),\n        bodyTemperature: parseFloat(Math.max(32, Math.min(42, bodyTemperature)).toFixed(2)),\n        bloodPressureSystolic: Math.round(bloodPressureSystolic),\n        bloodPressureDiastolic: Math.round(bloodPressureDiastolic),\n        steps: steps,\n        timestamp: now.toISOString(),\n        // For dashboard display\n        memberName: member.name\n    };\n    \n    messages.push({ payload, topic: 'vitals/' + member.id });\n}\n\nreturn [messages];",
+        "name": "Generate Vitals",
+        "func": "const familyMembers = global.get('familyMembers') || [];\nconst anomalyMode = global.get('anomalyMode') || false;\nconst selectedId = global.get('selectedMemberId');\n\nconst DEFAULT_PROFILES = {\n    'default-1': {\n        name: 'Test Member 1',\n        heartRate: { min: 60, max: 100, baseline: 75 },\n        oxygenLevel: { min: 94, max: 99, baseline: 97 },\n        bodyTemperature: { min: 36.0, max: 37.5, baseline: 36.6 }\n    }\n};\n\nfunction gaussianRandom(mean, stdDev) {\n    let u = 0, v = 0;\n    while (u === 0) u = Math.random();\n    while (v === 0) v = Math.random();\n    return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v) * stdDev + mean;\n}\n\nfunction randomInt(min, max) {\n    return Math.floor(Math.random() * (max - min + 1)) + min;\n}\n\nconst messages = [];\nconst membersToProcess = familyMembers.length > 0 ? familyMembers :\n    [{ id: 'default-1', name: 'Test Member', deviceId: 'SIM-001', relationship: 'test' }];\n\nfor (const member of membersToProcess) {\n    if (selectedId && selectedId !== 'ALL' && member.id !== selectedId) {\n        continue;\n    }\n\n    const profile = DEFAULT_PROFILES['default-1'];\n    const now = new Date();\n\n    let heartRate = gaussianRandom(profile.heartRate.baseline, 5);\n    let oxygenLevel = gaussianRandom(profile.oxygenLevel.baseline, 1);\n    let bodyTemperature = gaussianRandom(profile.bodyTemperature.baseline, 0.2);\n    let bloodPressureSystolic = gaussianRandom(120, 10);\n    let bloodPressureDiastolic = gaussianRandom(80, 5);\n\n    if (anomalyMode && Math.random() < 0.30) {\n        const types = ['hr_high', 'hr_low', 'spo2_low', 'temp_high'];\n        switch (types[randomInt(0, types.length - 1)]) {\n            case 'hr_high': heartRate = randomInt(125, 150); break;\n            case 'hr_low': heartRate = randomInt(40, 50); break;\n            case 'spo2_low': oxygenLevel = randomInt(85, 90); break;\n            case 'temp_high': bodyTemperature = 38.5 + Math.random(); break;\n        }\n    }\n\n    const stepsKey = 'steps_' + member.id;\n    let steps = global.get(stepsKey) || randomInt(0, 2000);\n    steps += randomInt(5, 30);\n    global.set(stepsKey, steps);\n\n    const payload = {\n        memberId: member.id,\n        deviceId: member.deviceId || 'SIM-' + member.id.substring(0, 8),\n        heartRate: Math.round(Math.max(30, Math.min(200, heartRate))),\n        oxygenLevel: parseFloat(Math.max(50, Math.min(100, oxygenLevel)).toFixed(1)),\n        bodyTemperature: parseFloat(Math.max(32, Math.min(42, bodyTemperature)).toFixed(2)),\n        bloodPressureSystolic: Math.round(bloodPressureSystolic),\n        bloodPressureDiastolic: Math.round(bloodPressureDiastolic),\n        steps: steps,\n        timestamp: now.toISOString(),\n        memberName: member.name\n    };\n\n    messages.push({ payload, topic: 'vitals/' + member.id });\n}\n\nreturn [messages];",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -795,7 +850,11 @@
         "libs": [],
         "x": 510,
         "y": 920,
-        "wires": [["split-messages"]]
+        "wires": [
+            [
+                "split-messages"
+            ]
+        ]
     },
     {
         "id": "split-messages",
@@ -810,13 +869,18 @@
         "addname": "",
         "x": 670,
         "y": 920,
-        "wires": [["prepare-graphql-vital", "update-dashboard"]]
+        "wires": [
+            [
+                "prepare-graphql-vital",
+                "update-dashboard"
+            ]
+        ]
     },
     {
         "id": "prepare-graphql-vital",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Prepare recordVital Mutation",
+        "name": "Prepare recordVital Mutation",
         "func": "const graphqlUrl = global.get('graphqlUrl');\nconst token = global.get('jwtAccessToken');\nconst vital = msg.payload;\n\nif (!graphqlUrl || !token) {\n    node.status({fill: 'red', shape: 'dot', text: 'Not authenticated'});\n    return null;\n}\n\nconst mutation = `\nmutation RecordVital($input: VitalInput!) {\n    recordVital(input: $input) {\n        id\n        memberId\n        heartRate\n        oxygenLevel\n        bodyTemperature\n        overallStatus\n        readingTimestamp\n    }\n}\n`;\n\nmsg.url = graphqlUrl;\nmsg.method = 'POST';\nmsg.headers = {\n    'Content-Type': 'application/json',\n    'Authorization': 'Bearer ' + token\n};\nmsg.payload = {\n    query: mutation,\n    variables: {\n        input: {\n            memberId: vital.memberId,\n            deviceId: vital.deviceId,\n            heartRate: vital.heartRate,\n            oxygenLevel: vital.oxygenLevel,\n            bodyTemperature: vital.bodyTemperature,\n            bloodPressureSystolic: vital.bloodPressureSystolic,\n            bloodPressureDiastolic: vital.bloodPressureDiastolic,\n            steps: vital.steps\n        }\n    }\n};\n\nmsg.originalVital = vital;\nnode.status({fill: 'yellow', shape: 'ring', text: 'Sending...'});\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -825,13 +889,17 @@
         "libs": [],
         "x": 920,
         "y": 870,
-        "wires": [["http-vital-request"]]
+        "wires": [
+            [
+                "http-vital-request"
+            ]
+        ]
     },
     {
         "id": "http-vital-request",
         "type": "http request",
         "z": "vitalsync-flow-tab",
-        "name": "📡 GraphQL",
+        "name": "GraphQL",
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
@@ -845,14 +913,18 @@
         "headers": [],
         "x": 1170,
         "y": 870,
-        "wires": [["handle-vital-response"]]
+        "wires": [
+            [
+                "handle-vital-response"
+            ]
+        ]
     },
     {
         "id": "handle-vital-response",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Handle Response",
-        "func": "const statusCode = msg.statusCode || 0;\nconst now = new Date().toLocaleTimeString('es-MX');\n\nif (statusCode === 200 && msg.payload.data && msg.payload.data.recordVital) {\n    const result = msg.payload.data.recordVital;\n    const status = result.overallStatus || 'normal';\n    const statusIcon = status === 'normal' ? '✅' : status === 'warning' ? '⚠️' : '🔴';\n    \n    node.status({fill: status === 'normal' ? 'green' : 'yellow', shape: 'dot', text: statusIcon + ' ' + now});\n    \n    return { payload: statusIcon + ' OK - ' + now };\n} else if (msg.payload.errors) {\n    const error = msg.payload.errors[0]?.message || 'Error';\n    node.status({fill: 'red', shape: 'dot', text: error.substring(0, 20)});\n    return { payload: '❌ ' + error };\n} else {\n    node.status({fill: 'red', shape: 'dot', text: 'HTTP ' + statusCode});\n    return { payload: '❌ HTTP ' + statusCode };\n}",
+        "name": "Handle Response",
+        "func": "const statusCode = msg.statusCode || 0;\nconst now = new Date().toLocaleTimeString('es-MX');\n\nif (statusCode === 200 && msg.payload.data && msg.payload.data.recordVital) {\n    const result = msg.payload.data.recordVital;\n    const status = result.overallStatus || 'normal';\n    const statusLabel = status === 'normal' ? 'OK' : status === 'warning' ? 'WARNING' : 'CRITICAL';\n\n    node.status({fill: status === 'normal' ? 'green' : 'yellow', shape: 'dot', text: statusLabel + ' ' + now});\n\n    return { payload: statusLabel + ' - ' + now };\n} else if (msg.payload.errors) {\n    const error = msg.payload.errors[0]?.message || 'Error';\n    node.status({fill: 'red', shape: 'dot', text: error.substring(0, 20)});\n    return { payload: 'Error: ' + error };\n} else {\n    node.status({fill: 'red', shape: 'dot', text: 'HTTP ' + statusCode});\n    return { payload: 'HTTP ' + statusCode };\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -860,14 +932,18 @@
         "libs": [],
         "x": 1370,
         "y": 870,
-        "wires": [["api-status-text"]]
+        "wires": [
+            [
+                "api-status-text"
+            ]
+        ]
     },
     {
         "id": "update-dashboard",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📊 Update Dashboard",
-        "func": "const data = msg.payload;\n\n// Heart Rate gauge\nconst hrMsg = { payload: data.heartRate, topic: data.memberName || 'Vital' };\n\n// SpO2 gauge  \nconst spo2Msg = { payload: data.oxygenLevel, topic: data.memberName || 'Vital' };\n\n// Temperature chart\nconst tempMsg = { payload: data.bodyTemperature, topic: data.memberName || 'Vital' };\n\n// Steps\nconst stepsMsg = { payload: data.steps };\n\n// Blood pressure\nconst bpMsg = { payload: data.bloodPressureSystolic + '/' + data.bloodPressureDiastolic + ' mmHg' };\n\nreturn [hrMsg, spo2Msg, tempMsg, stepsMsg, bpMsg];",
+        "name": "Update Dashboard",
+        "func": "const data = msg.payload;\n\nconst hrMsg = { payload: data.heartRate, topic: data.memberName || 'Vital' };\n\nconst spo2Msg = { payload: data.oxygenLevel, topic: data.memberName || 'Vital' };\n\nconst tempMsg = { payload: data.bodyTemperature, topic: data.memberName || 'Vital' };\n\nconst stepsMsg = { payload: data.steps };\n\nconst bpMsg = { payload: data.bloodPressureSystolic + '/' + data.bloodPressureDiastolic + ' mmHg' };\n\nreturn [hrMsg, spo2Msg, tempMsg, stepsMsg, bpMsg];",
         "outputs": 5,
         "noerr": 0,
         "initialize": "",
@@ -875,13 +951,29 @@
         "libs": [],
         "x": 920,
         "y": 970,
-        "wires": [["hr-gauge"], ["spo2-gauge"], ["temp-chart"], ["steps-text"], ["bp-text"]]
+        "wires": [
+            [
+                "hr-gauge"
+            ],
+            [
+                "spo2-gauge"
+            ],
+            [
+                "temp-chart"
+            ],
+            [
+                "steps-text"
+            ],
+            [
+                "bp-text"
+            ]
+        ]
     },
     {
         "id": "hr-gauge",
         "type": "ui_gauge",
         "z": "vitalsync-flow-tab",
-        "name": "❤️ Heart Rate",
+        "name": "Heart Rate",
         "group": "vitals-group",
         "order": 1,
         "width": "3",
@@ -892,7 +984,11 @@
         "format": "{{value}}",
         "min": 40,
         "max": 150,
-        "colors": ["#F44336", "#4CAF50", "#F44336"],
+        "colors": [
+            "#F44336",
+            "#4CAF50",
+            "#F44336"
+        ],
         "seg1": "60",
         "seg2": "100",
         "diff": false,
@@ -905,7 +1001,7 @@
         "id": "spo2-gauge",
         "type": "ui_gauge",
         "z": "vitalsync-flow-tab",
-        "name": "🫁 SpO2",
+        "name": "SpO2",
         "group": "vitals-group",
         "order": 2,
         "width": "3",
@@ -916,7 +1012,11 @@
         "format": "{{value}}",
         "min": 80,
         "max": 100,
-        "colors": ["#F44336", "#FF9800", "#4CAF50"],
+        "colors": [
+            "#F44336",
+            "#FF9800",
+            "#4CAF50"
+        ],
         "seg1": "90",
         "seg2": "95",
         "diff": false,
@@ -929,12 +1029,12 @@
         "id": "temp-chart",
         "type": "ui_chart",
         "z": "vitalsync-flow-tab",
-        "name": "🌡️ Temperature",
+        "name": "Temperature",
         "group": "chart-group",
         "order": 1,
         "width": "12",
         "height": "4",
-        "label": "Body Temperature (°C)",
+        "label": "Body Temperature (C)",
         "chartType": "line",
         "legend": "true",
         "xformat": "HH:mm:ss",
@@ -949,19 +1049,26 @@
         "cutout": 0,
         "useOneColor": false,
         "useUTC": false,
-        "colors": ["#2196F3", "#4CAF50", "#FF9800", "#9C27B0"],
+        "colors": [
+            "#2196F3",
+            "#4CAF50",
+            "#FF9800",
+            "#9C27B0"
+        ],
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
         "x": 1180,
         "y": 1010,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "steps-text",
         "type": "ui_text",
         "z": "vitalsync-flow-tab",
-        "name": "🚶 Steps",
+        "name": "Steps",
         "group": "vitals-group",
         "order": 3,
         "width": "3",
@@ -978,7 +1085,7 @@
         "id": "bp-text",
         "type": "ui_text",
         "z": "vitalsync-flow-tab",
-        "name": "🩺 Blood Pressure",
+        "name": "Blood Pressure",
         "group": "vitals-group",
         "order": 4,
         "width": "3",
@@ -992,21 +1099,15 @@
         "wires": []
     },
     {
-        "id": "comment-alerts-section",
-        "type": "comment",
-        "z": "vitalsync-flow-tab",
-        "name": "══════════════════ ALERTS (GraphQL Query + Subscription) ══════════════════",
-        "info": "",
-        "x": 340,
-        "y": 1140,
-        "wires": []
-    },
-    {
         "id": "fetch-alerts-trigger",
         "type": "inject",
         "z": "vitalsync-flow-tab",
-        "name": "⏰ Every 30s",
-        "props": [{"p": "payload"}],
+        "name": "Every 30s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
         "repeat": "30",
         "crontab": "",
         "once": true,
@@ -1016,13 +1117,17 @@
         "payloadType": "str",
         "x": 150,
         "y": 1190,
-        "wires": [["fetch-active-alerts"]]
+        "wires": [
+            [
+                "fetch-active-alerts"
+            ]
+        ]
     },
     {
         "id": "refresh-alerts-btn",
         "type": "ui_button",
         "z": "vitalsync-flow-tab",
-        "name": "🔄 Refresh Alerts",
+        "name": "Refresh Alerts",
         "group": "alerts-group",
         "order": 1,
         "width": "3",
@@ -1040,13 +1145,17 @@
         "topicType": "str",
         "x": 160,
         "y": 1240,
-        "wires": [["fetch-active-alerts"]]
+        "wires": [
+            [
+                "fetch-active-alerts"
+            ]
+        ]
     },
     {
         "id": "fetch-active-alerts",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Fetch Active Alerts",
+        "name": "Fetch Active Alerts",
         "func": "const graphqlUrl = global.get('graphqlUrl');\nconst token = global.get('jwtAccessToken');\nconst isAuth = global.get('isAuthenticated');\n\nif (!isAuth || !token) {\n    return null;\n}\n\nconst query = `\nquery GetActiveAlerts {\n    activeAlerts {\n        id\n        alertType\n        severity\n        message\n        createdAt\n        member {\n            id\n            name\n        }\n    }\n    recentAlerts(hours: 1) {\n        id\n        alertType\n        severity\n        status\n        message\n        createdAt\n    }\n}\n`;\n\nmsg.url = graphqlUrl;\nmsg.method = 'POST';\nmsg.headers = {\n    'Content-Type': 'application/json',\n    'Authorization': 'Bearer ' + token\n};\nmsg.payload = { query };\n\nnode.status({fill: 'yellow', shape: 'ring', text: 'Fetching...'});\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -1055,13 +1164,17 @@
         "libs": [],
         "x": 420,
         "y": 1190,
-        "wires": [["http-alerts-request"]]
+        "wires": [
+            [
+                "http-alerts-request"
+            ]
+        ]
     },
     {
         "id": "http-alerts-request",
         "type": "http request",
         "z": "vitalsync-flow-tab",
-        "name": "📡 GraphQL",
+        "name": "GraphQL",
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
@@ -1075,14 +1188,18 @@
         "headers": [],
         "x": 650,
         "y": 1190,
-        "wires": [["handle-alerts-response"]]
+        "wires": [
+            [
+                "handle-alerts-response"
+            ]
+        ]
     },
     {
         "id": "handle-alerts-response",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Format Alerts",
-        "func": "if (msg.statusCode !== 200 || !msg.payload.data) {\n    node.status({fill: 'red', shape: 'dot', text: 'Error'});\n    return null;\n}\n\nconst activeAlerts = msg.payload.data.activeAlerts || [];\nconst recentAlerts = msg.payload.data.recentAlerts || [];\n\nglobal.set('activeAlerts', activeAlerts);\n\n// Format HTML for display\nlet html = '<div style=\"max-height: 200px; overflow-y: auto; font-size: 11px;\">';\n\nif (activeAlerts.length === 0) {\n    html += '<div style=\"color: #4CAF50; padding: 10px;\">✅ No active alerts</div>';\n} else {\n    for (const alert of activeAlerts) {\n        const bgColor = alert.severity === 'critical' ? '#ffcdd2' : \n                        alert.severity === 'warning' ? '#fff9c4' : '#e3f2fd';\n        const icon = alert.severity === 'critical' ? '🔴' : \n                     alert.severity === 'warning' ? '⚠️' : 'ℹ️';\n        const time = new Date(alert.createdAt).toLocaleTimeString('es-MX');\n        \n        html += `<div style=\"background: ${bgColor}; padding: 8px; margin: 4px 0; border-radius: 4px;\">`;\n        html += `${icon} <strong>${alert.alertType.toUpperCase()}</strong>`;\n        html += `<br><small>${alert.member?.name || 'Unknown'} - ${time}</small>`;\n        html += `<br>${alert.message}`;\n        html += '</div>';\n    }\n}\n\nhtml += '</div>';\n\nnode.status({fill: activeAlerts.length > 0 ? 'red' : 'green', shape: 'dot', \n             text: activeAlerts.length + ' active'});\n\n// Output 1: HTML for template\n// Output 2: Count for badge\nreturn [\n    { payload: html },\n    { payload: activeAlerts.length }\n];",
+        "name": "Format Alerts",
+        "func": "if (msg.statusCode !== 200 || !msg.payload.data) {\n    node.status({fill: 'red', shape: 'dot', text: 'Error'});\n    return null;\n}\n\nconst activeAlerts = msg.payload.data.activeAlerts || [];\nconst recentAlerts = msg.payload.data.recentAlerts || [];\n\nglobal.set('activeAlerts', activeAlerts);\n\nlet html = '<div style=\"max-height: 200px; overflow-y: auto; font-size: 11px;\">';\n\nif (activeAlerts.length === 0) {\n    html += '<div style=\"color: #4CAF50; padding: 10px;\">No active alerts</div>';\n} else {\n    for (const alert of activeAlerts) {\n        const bgColor = alert.severity === 'critical' ? '#ffcdd2' :\n                        alert.severity === 'warning' ? '#fff9c4' : '#e3f2fd';\n        const tag = alert.severity === 'critical' ? '[CRITICAL]' :\n                    alert.severity === 'warning' ? '[WARNING]' : '[INFO]';\n        const time = new Date(alert.createdAt).toLocaleTimeString('es-MX');\n\n        html += `<div style=\"background: ${bgColor}; padding: 8px; margin: 4px 0; border-radius: 4px;\">`;\n        html += `${tag} <strong>${alert.alertType.toUpperCase()}</strong>`;\n        html += `<br><small>${alert.member?.name || 'Unknown'} - ${time}</small>`;\n        html += `<br>${alert.message}`;\n        html += '</div>';\n    }\n}\n\nhtml += '</div>';\n\nnode.status({fill: activeAlerts.length > 0 ? 'red' : 'green', shape: 'dot',\n             text: activeAlerts.length + ' active'});\n\nreturn [\n    { payload: html },\n    { payload: activeAlerts.length }\n];",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -1090,13 +1207,20 @@
         "libs": [],
         "x": 870,
         "y": 1190,
-        "wires": [["alerts-display"], ["alerts-badge"]]
+        "wires": [
+            [
+                "alerts-display"
+            ],
+            [
+                "alerts-badge"
+            ]
+        ]
     },
     {
         "id": "alerts-display",
         "type": "ui_template",
         "z": "vitalsync-flow-tab",
-        "name": "🚨 Alerts List",
+        "name": "Alerts List",
         "group": "alerts-group",
         "order": 2,
         "width": "6",
@@ -1109,7 +1233,9 @@
         "className": "",
         "x": 1090,
         "y": 1190,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "alerts-badge",
@@ -1129,20 +1255,10 @@
         "wires": []
     },
     {
-        "id": "comment-status-section",
-        "type": "comment",
-        "z": "vitalsync-flow-tab",
-        "name": "══════════════════ SYSTEM STATUS ══════════════════",
-        "info": "",
-        "x": 280,
-        "y": 1290,
-        "wires": []
-    },
-    {
         "id": "emission-status-text",
         "type": "ui_text",
         "z": "vitalsync-flow-tab",
-        "name": "📡 Emission",
+        "name": "Emission",
         "group": "status-group",
         "order": 1,
         "width": "3",
@@ -1159,7 +1275,7 @@
         "id": "api-status-text",
         "type": "ui_text",
         "z": "vitalsync-flow-tab",
-        "name": "🔗 API Status",
+        "name": "API Status",
         "group": "status-group",
         "order": 2,
         "width": "6",
@@ -1176,8 +1292,12 @@
         "id": "system-health-trigger",
         "type": "inject",
         "z": "vitalsync-flow-tab",
-        "name": "⏰ Every 60s",
-        "props": [{"p": "payload"}],
+        "name": "Every 60s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
         "repeat": "60",
         "crontab": "",
         "once": true,
@@ -1187,13 +1307,17 @@
         "payloadType": "str",
         "x": 150,
         "y": 1340,
-        "wires": [["fetch-system-health"]]
+        "wires": [
+            [
+                "fetch-system-health"
+            ]
+        ]
     },
     {
         "id": "fetch-system-health",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Fetch System Health",
+        "name": "Fetch System Health",
         "func": "const graphqlUrl = global.get('graphqlUrl');\nconst token = global.get('jwtAccessToken');\n\nif (!graphqlUrl || !token) return null;\n\nconst query = `\nquery {\n    systemHealth {\n        status\n        database\n        timestamp\n    }\n}\n`;\n\nmsg.url = graphqlUrl;\nmsg.method = 'POST';\nmsg.headers = {\n    'Content-Type': 'application/json',\n    'Authorization': 'Bearer ' + token\n};\nmsg.payload = { query };\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -1202,13 +1326,17 @@
         "libs": [],
         "x": 410,
         "y": 1340,
-        "wires": [["http-health-request"]]
+        "wires": [
+            [
+                "http-health-request"
+            ]
+        ]
     },
     {
         "id": "http-health-request",
         "type": "http request",
         "z": "vitalsync-flow-tab",
-        "name": "📡 GraphQL",
+        "name": "GraphQL",
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
@@ -1222,14 +1350,18 @@
         "headers": [],
         "x": 650,
         "y": 1340,
-        "wires": [["handle-health-response"]]
+        "wires": [
+            [
+                "handle-health-response"
+            ]
+        ]
     },
     {
         "id": "handle-health-response",
         "type": "function",
         "z": "vitalsync-flow-tab",
-        "name": "📋 Format Health",
-        "func": "const now = new Date().toLocaleTimeString('es-MX');\n\nif (msg.statusCode === 200 && msg.payload.data?.systemHealth) {\n    const health = msg.payload.data.systemHealth;\n    const status = health.status === 'healthy' ? '🟢' : '🟡';\n    const db = health.database === 'connected' ? '✅' : '❌';\n    \n    msg.payload = status + ' System OK | DB: ' + db + ' | ' + now;\n    node.status({fill: 'green', shape: 'dot', text: 'Healthy'});\n} else {\n    msg.payload = '🔴 System Error | ' + now;\n    node.status({fill: 'red', shape: 'dot', text: 'Error'});\n}\n\nreturn msg;",
+        "name": "Format Health",
+        "func": "const now = new Date().toLocaleTimeString('es-MX');\n\nif (msg.statusCode === 200 && msg.payload.data?.systemHealth) {\n    const health = msg.payload.data.systemHealth;\n    const statusLabel = health.status === 'healthy' ? 'HEALTHY' : 'CHECK STATUS';\n    const dbLabel = health.database === 'connected' ? 'DB OK' : 'DB ISSUE';\n\n    msg.payload = statusLabel + ' | ' + dbLabel + ' | ' + now;\n    node.status({fill: 'green', shape: 'dot', text: 'Healthy'});\n} else {\n    msg.payload = 'System Error | ' + now;\n    node.status({fill: 'red', shape: 'dot', text: 'Error'});\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1237,13 +1369,17 @@
         "libs": [],
         "x": 870,
         "y": 1340,
-        "wires": [["system-health-text"]]
+        "wires": [
+            [
+                "system-health-text"
+            ]
+        ]
     },
     {
         "id": "system-health-text",
         "type": "ui_text",
         "z": "vitalsync-flow-tab",
-        "name": "💚 System Health",
+        "name": "System Health",
         "group": "status-group",
         "order": 3,
         "width": "6",
