@@ -1,29 +1,31 @@
 # VitalSync Node-RED IoT Simulator
 
-## 📋 Descripción
+## Overview
 
-Este flujo de Node-RED simula dispositivos IoT wearable enviando datos de signos vitales a la API REST de VitalSync.
+This Node-RED flow simulates IoT wearable devices transmitting vital signs data to the VitalSync REST API.
 
----
-
-## ✅ Requisitos del Proyecto Cumplidos
-
-| Requisito | Estado | Descripción |
-|-----------|--------|-------------|
-| Start/Stop switch | ✅ | Habilita/deshabilita la emisión de datos |
-| Frequency slider | ✅ | Ajusta intervalo de 500ms a 3000ms |
-| Anomaly toggle | ✅ | Inyecta valores fuera de rango (30% prob.) |
-| 2+ Gauges | ✅ | Heart Rate + Oxygen Level |
-| 1 Live chart | ✅ | Body Temperature (rolling 2 min) |
-| Health indicator | ✅ | Estado de conexión con API |
+**Important Notice:** This flow and its associated dashboard are designed exclusively for data ingestion simulation and ingestion metrics monitoring. The dashboard displays operational metrics related to the data transmission process, connection status, and system health indicators. It does not display or process sensitive patient health data. For visualization and analysis of actual patient vital signs and health records, a separate dedicated dashboard with appropriate security controls must be used.
 
 ---
 
-## 🚀 Instalación
+## Project Requirements
 
-### Opción A: Docker Compose (Recomendado)
+| Requirement | Status | Description |
+|-------------|--------|-------------|
+| Start/Stop switch | Complete | Enables/disables data emission |
+| Frequency slider | Complete | Adjusts interval from 500ms to 3000ms |
+| Anomaly toggle | Complete | Injects out-of-range values (30% probability) |
+| 2+ Gauges | Complete | Heart Rate + Oxygen Level |
+| 1 Live chart | Complete | Body Temperature (rolling 2 min) |
+| Health indicator | Complete | API connection status |
 
-El flujo se carga automáticamente. En tu `docker-compose.yml`:
+---
+
+## Installation
+
+### Option A: Docker Compose (Recommended)
+
+The flow loads automatically. In your `docker-compose.yml`:
 
 ```yaml
 nodered:
@@ -41,106 +43,108 @@ nodered:
     - vitalsync-network
 ```
 
-Luego:
+Then execute:
 ```bash
 docker-compose up -d nodered
 ```
 
-### Opción B: Importar Manualmente
+### Option B: Manual Import
 
-1. Abrir Node-RED: http://localhost:1880
-2. **Menú (☰)** → **Import** → **Clipboard**
-3. Pegar el contenido de `vitalsync_nodered_flow.json`
-4. Click **"Import"**
-5. Click **"Deploy"** (botón rojo arriba a la derecha)
+1. Open Node-RED: http://localhost:1880
+2. Navigate to Menu > Import > Clipboard
+3. Paste the contents of `vitalsync_nodered_flow.json`
+4. Click "Import"
+5. Click "Deploy" (red button in the upper right corner)
 
-### Opción C: Node-RED ya está corriendo
+### Option C: Node-RED Already Running
 
-Si Node-RED ya está corriendo en una imagen:
+If Node-RED is already running in a container:
 
 ```bash
-# Copiar el flujo al contenedor
+# Copy the flow to the container
 docker cp ./flows/vitalsync_nodered_flow.json vitalsync-nodered:/data/flows.json
 
-# Reiniciar Node-RED para cargar el flujo
+# Restart Node-RED to load the flow
 docker restart vitalsync-nodered
 ```
 
 ---
 
-## 🌐 URLs
+## Service URLs
 
-| Servicio | URL |
-|----------|-----|
-| **Node-RED Editor** | http://localhost:1880 |
-| **Dashboard UI** | http://localhost:1880/ui |
+| Service | URL |
+|---------|-----|
+| Node-RED Editor | http://localhost:1880 |
+| Dashboard UI | http://localhost:1880/ui |
 
 ---
 
-## ⚙️ Configurar URL del API
+## API URL Configuration
 
-El flujo necesita conectarse a la API. Por defecto usa `http://vitalsync-api:8000` (para Docker).
+The flow requires connection to the API. The default URL is `http://vitalsync-api:8000` (for Docker environments).
 
-### Cambiar la URL:
+### To Change the URL:
 
-1. En el **Dashboard** (http://localhost:1880/ui)
-2. En el panel **Control Panel**
-3. Campo **"API URL"** → Ingresar la URL correcta
-4. Ejemplos:
+1. Access the Dashboard at http://localhost:1880/ui
+2. Locate the Control Panel section
+3. Enter the correct URL in the "API URL" field
+4. Examples:
    - Docker: `http://vitalsync-api:8000`
    - Local: `http://localhost:8000`
    - AWS: `https://api.vitalsync.example.com`
 
 ---
 
-## 📊 Widgets del Dashboard
+## Dashboard Widgets
 
-### ⚙️ Control Panel
-| Widget | Función |
-|--------|---------|
-| **Data Emission** | ON/OFF para enviar datos |
-| **Interval** | 500-3000ms entre envíos |
-| **Anomaly Mode** | Inyectar valores críticos |
-| **View** | Filtrar por familiar |
-| **Reset Steps** | Reiniciar contadores |
-| **API URL** | Cambiar URL del API |
+### Control Panel
+| Widget | Function |
+|--------|----------|
+| Data Emission | ON/OFF toggle for data transmission |
+| Interval | 500-3000ms between transmissions |
+| Anomaly Mode | Inject critical values for testing |
+| View | Filter by family member |
+| Reset Steps | Reset step counters |
+| API URL | Modify API endpoint |
 
-### ❤️ Vital Signs
-- **Heart Rate Gauge** (40-150 bpm)
-- **SpO2 Gauge** (80-100%)
+### Vital Signs (Ingestion Preview)
+- Heart Rate Gauge (40-150 bpm)
+- SpO2 Gauge (80-100%)
 
-### 📊 Charts
-- **Temperature Chart** - Rolling 2 minutos
+Note: These gauges display simulated data being sent to the API for ingestion testing purposes only. They do not represent actual patient data.
 
-### 📡 System Status
-- **Steps** - Contador de pasos
-- **Status** - Estado de emisión
-- **API** - Conexión con API
+### Charts
+- Temperature Chart - Rolling 2-minute window
 
-### 🚨 Alerts
-- **Alert Log** - Historial de alertas
-- **Toast** - Notificaciones popup
+### System Status
+- Steps - Step counter
+- Status - Emission state
+- API - API connection status
+
+### Alerts
+- Alert Log - Alert history
+- Toast - Popup notifications
 
 ---
 
-## 👨‍👩‍👧 Dispositivos Simulados
+## Simulated Devices
 
-| Familiar | Device ID | Tipo |
-|----------|-----------|------|
-| Roberto (Papá) | XIAOMI-PAPA-001 | Xiaomi Mi Band |
-| Elena (Mamá) | APPLE-MAMA-002 | Apple Watch |
-| José (Abuelo) | FITBIT-ABUELO-003 | Fitbit |
+| Family Member | Device ID | Type |
+|---------------|-----------|------|
+| Roberto (Father) | XIAOMI-PAPA-001 | Xiaomi Mi Band |
+| Elena (Mother) | APPLE-MAMA-002 | Apple Watch |
+| Jose (Grandfather) | FITBIT-ABUELO-003 | Fitbit |
 | Test | SIM-NODERED-004 | Simulator |
 
 ---
 
-## 📡 Payload JSON
+## JSON Payload Structure
 
 ```json
 {
   "deviceId": "XIAOMI-PAPA-001",
   "memberId": "familia-garcia-papa",
-  "memberName": "Roberto García",
+  "memberName": "Roberto Garcia",
   "relationship": "padre",
   "deviceType": "xiaomi_mi_band",
   "heartRate": 72,
@@ -154,56 +158,56 @@ El flujo necesita conectarse a la API. Por defecto usa `http://vitalsync-api:800
 
 ---
 
-## 🚨 Umbrales de Alertas
+## Alert Thresholds
 
-| Métrica | 🔴 Critical | ⚠️ Warning | 🟢 Normal |
-|---------|------------|------------|-----------|
+| Metric | Critical | Warning | Normal |
+|--------|----------|---------|--------|
 | Heart Rate | <50 / >120 | 50-60 / 100-120 | 60-100 bpm |
 | SpO2 | <90% | 90-95% | >95% |
-| Temperature | <35° / >38° | 35-36.1° / 37.2-38° | 36.1-37.2°C |
+| Temperature | <35C / >38C | 35-36.1C / 37.2-38C | 36.1-37.2C |
 
 ---
 
-## 🧪 Test del Flujo
+## Flow Testing
 
-1. ✅ Activar **"Data Emission"** → Ver datos en debug
-2. ✅ Mover slider → Cambia frecuencia de envío
-3. ✅ Activar **"Anomaly Mode"** → Ver alertas críticas
-4. ✅ Gauges actualizan en tiempo real
-5. ✅ Chart muestra últimos 2 minutos
-6. ✅ API status muestra ✅ OK o ❌ Error
+1. Activate "Data Emission" - Verify data appears in debug
+2. Adjust slider - Confirm transmission frequency changes
+3. Enable "Anomaly Mode" - Verify critical alerts are generated
+4. Confirm gauges update in real time
+5. Verify chart displays the last 2 minutes of data
+6. Confirm API status shows OK or Error appropriately
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
-**Dashboard no aparece:**
+**Dashboard not appearing:**
 ```bash
-# Instalar node-red-dashboard
+# Install node-red-dashboard
 docker exec vitalsync-nodered npm install node-red-dashboard
 docker restart vitalsync-nodered
 ```
 
-**API no responde:**
+**API not responding:**
 ```bash
-# Verificar API
+# Verify API health
 curl http://localhost:8000/api/health
 
-# Verificar red Docker
+# Verify Docker network
 docker network ls
 docker network inspect vitalsync-network
 ```
 
-**Flujo no carga:**
+**Flow not loading:**
 ```bash
-# Ver logs
+# View logs
 docker logs vitalsync-nodered
 
-# Reimportar flujo
+# Re-import flow
 docker cp flows.json vitalsync-nodered:/data/flows.json
 docker restart vitalsync-nodered
 ```
 
 ---
 
-*VitalSync Node-RED - SIS4415 Final Project*
+VitalSync Node-RED - SIS4415 Final Project
